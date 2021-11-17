@@ -16,16 +16,16 @@ function Main({
 
   const [cards, changeCards] = React.useState([]);
 
-  // React.useEffect(() => {
-  //   api
-  //     .getinfouser()
-  //     .then((res) => {
-  //       changeUserAvatar(res.avatar);
-  //       changeUserName(res.name);
-  //       changeUserDescription(res.about);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  React.useEffect(() => {
+    api
+      .getinfouser()
+      .then((res) => {
+        changeUserAvatar(res.avatar);
+        changeUserName(res.name);
+        changeUserDescription(res.about);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   React.useEffect(() => {
     api
