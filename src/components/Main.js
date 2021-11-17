@@ -1,6 +1,6 @@
 import React from "react";
 import api from "../utils/Api";
-import Card from "./Card";
+import Card from "./dssddssds";
 
 function Main({
   handleEditAvatarClick,
