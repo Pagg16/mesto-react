@@ -8,8 +8,8 @@ function ImagePopup(props) {
       }`}
     >
       <div className="popup__image-container">
-        <img alt={props.name} className="popup__image-open" src={props.link} />
-        <h2 className="popup__image-text">{props.name}</h2>
+        <img alt={props.card.name} className="popup__image-open" src={props.card.link} />
+        <h2 className="popup__image-text">{props.card.name}</h2>
         <button
           aria-label="Close"
           type="button"
