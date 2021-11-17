@@ -6,7 +6,7 @@ function Card(props) {
   }
 
   return (
-    <article className="element" key={props.id}>
+    <article className="element">
       <button
         aria-label="open"
         type="button"

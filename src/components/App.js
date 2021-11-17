@@ -6,25 +6,26 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 function App() {
-  const isOpen = "popup_opened";
-
   //переменные состояния
   const [isEditAvatarPopupOpen, setEditAvatarClick] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfileClick] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlaceClick] = React.useState(false);
 
-  //переменная открытия картинки
-  const [selectedCard, setSelectedCard] = React.useState(false);
+  //переменная открытия картинки с данными картинки
+  const [selectedCard, setSelectedCard] = React.useState({
+    name: "",
+    link: "",
+  });
 
   function handleCardClick(data) {
-    setSelectedCard(data);
+    setSelectedCard({ name: data.name, link: data.link });
   }
 
   function closeAllPopups() {
     setEditAvatarClick(false);
     setEditProfileClick(false);
     setAddPlaceClick(false);
-    setSelectedCard(false);
+    setSelectedCard({ name: "", link: "" });
   }
 
   function handleEditAvatarClick() {
@@ -49,9 +50,8 @@ function App() {
         onCardClick={handleCardClick}
       />
       <PopupWithForm
-        isOpen={isOpen}
+        isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-        isEditProfilePopupOpen={isEditProfilePopupOpen}
         name={"popup-profile"}
         textButton={"Сохранить"}
         title={"Редактировать профиль"}
@@ -85,9 +85,8 @@ function App() {
         }
       />
       <PopupWithForm
-        isOpen={isOpen}
+        isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-        isEditAvatarPopupOpen={isEditAvatarPopupOpen}
         name={"avatar-edit"}
         textButton={"Сохранить"}
         title={"Обновить аватар"}
@@ -107,9 +106,8 @@ function App() {
         }
       />
       <PopupWithForm
-        isOpen={isOpen}
+        isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-        isAddPlacePopupOpen={isAddPlacePopupOpen}
         name={"popup-posts"}
         textButton={"Создать"}
         title={"Новое место"}
@@ -140,11 +138,7 @@ function App() {
           </>
         }
       />
-      <ImagePopup
-        card={selectedCard}
-        isOpen={isOpen}
-        onClose={closeAllPopups}
-      />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       <Footer />
       <template id="post-element" />
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import api from "../utils/Api";
-import Card from "./card";
+import Card from "./Card";
 
 function Main({
   handleEditAvatarClick,
@@ -8,11 +8,11 @@ function Main({
   handleAddPlaceClick,
   onCardClick,
 }) {
-  const [userName, changeUserName] = React.useState();
+  const [userName, changeUserName] = React.useState("");
 
-  const [userDescription, changeUserDescription] = React.useState();
+  const [userDescription, changeUserDescription] = React.useState("");
 
-  const [userAvatar, changeUserAvatar] = React.useState();
+  const [userAvatar, changeUserAvatar] = React.useState("");
 
   const [cards, changeCards] = React.useState([]);
 
@@ -66,8 +66,8 @@ function Main({
         />
       </section>
       <section className="elements">
-        {cards.map((card, id) => (
-          <Card key={id} card={card} onCardClick={onCardClick} />
+        {cards.map((card) => (
+          <Card key={card._id} card={card} onCardClick={onCardClick} />
         ))}
       </section>
     </main>
