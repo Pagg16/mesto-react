@@ -1,9 +1,26 @@
 import React from "react";
 
 function Card(props) {
+
   function handleClick() {
     props.onCardClick(props.card);
   }
+
+  function cardLikeClick() {
+    props.onCardLike(props.card);
+  }
+
+  function handleDeleteClick() {
+    props.onCardDelete(props.card);
+  }
+
+  const isOwn = props.card.owner._id === props.currentUser._id;
+
+  // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+  const isLiked = props.card.likes.some((i) => i._id === props.currentUser._id);
+
+  // Создаём переменную, которую после зададим в `className` для кнопки лайка
+  const cardLikeButtonClassName = `rectangle__button-like_active`;
 
   return (
     <article className="element">
@@ -21,12 +38,21 @@ function Card(props) {
       </button>
       <button
         type="button"
-        className="element__button-delete-post element__button-delete-post_active"
+        className={`element__button-delete-post ${
+          isOwn ? "element__button-delete-post_active" : ""
+        }`}
+        onClick={handleDeleteClick}
       />
       <div className="rectangle">
         <h2 className="rectangle__text">{props.card.name}</h2>
         <div className="rectangle__like-box">
-          <button type="button" className="rectangle__button-like" />
+          <button
+            type="button"
+            className={`rectangle__button-like ${
+              isLiked ? cardLikeButtonClassName : ""
+            }`}
+            onClick={cardLikeClick}
+          />
           <p className="rectangle__like-number">{props.card.likes.length}</p>
         </div>
       </div>

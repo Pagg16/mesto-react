@@ -1,46 +1,28 @@
+import { useContext } from "react";
 import React from "react";
-import api from "../utils/Api";
 import Card from "./Card";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function Main({
   handleEditAvatarClick,
   handleEditProfileClick,
   handleAddPlaceClick,
   onCardClick,
+  cards,
+  handleCardLike,
+  onCardDelete,
 }) {
-  const [userName, changeUserName] = React.useState("");
-
-  const [userDescription, changeUserDescription] = React.useState("");
-
-  const [userAvatar, changeUserAvatar] = React.useState("");
-
-  const [cards, changeCards] = React.useState([]);
-
-  React.useEffect(() => {
-    api
-      .getinfouser()
-      .then((res) => {
-        changeUserAvatar(res.avatar);
-        changeUserName(res.name);
-        changeUserDescription(res.about);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        changeCards(res);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const dataUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="main">
       <section className="profile">
         <div className="profile__blackout">
-          <img alt="аватарка" className="profile__avatar" src={userAvatar} />
+          <img
+            alt="аватарка"
+            className="profile__avatar"
+            src={dataUser.avatar}
+          />
           <div
             className="profile__avatar-edit"
             onClick={handleEditAvatarClick}
@@ -48,7 +30,7 @@ function Main({
         </div>
         <div className="profile-info">
           <div className="profile-info__title-button">
-            <h1 className="profile-info__title">{userName}</h1>
+            <h1 className="profile-info__title">{dataUser.name}</h1>
             <button
               aria-label="edit"
               type="button"
@@ -56,7 +38,7 @@ function Main({
               onClick={handleEditProfileClick}
             />
           </div>
-          <p className="profile-info__subtitle">{userDescription}</p>
+          <p className="profile-info__subtitle">{dataUser.about}</p>
         </div>
         <button
           aria-label="add"
@@ -67,7 +49,14 @@ function Main({
       </section>
       <section className="elements">
         {cards.map((card) => (
-          <Card key={card._id} card={card} onCardClick={onCardClick} />
+          <Card
+            key={card._id}
+            card={card}
+            currentUser={dataUser}
+            onCardClick={onCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={onCardDelete}
+          />
         ))}
       </section>
     </main>

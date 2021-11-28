@@ -24,13 +24,17 @@ class Api {
     });
   }
 
-  cardLikeLink(id) {
+  cardLikeLink(id, isLiked) {
+    if(isLiked) {
     return fetch(`${this._baseUrl}/cards/likes/${id}`, {
       method: "PUT",
       headers: this._headers,
     }).then((res) => {
       return this._responseFromServer(res);
     });
+  } else {
+    return this.cardDelLikeLink(id);
+  }
   }
 
   cardDelLikeLink(id) {
@@ -67,7 +71,7 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
-        about: data.job,
+        about: data.about,
       }),
     }).then((res) => {
       return this._responseFromServer(res);
@@ -79,7 +83,7 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: data.edit,
+        avatar: data.avatar,
       }),
     }).then((res) => {
       return this._responseFromServer(res);
