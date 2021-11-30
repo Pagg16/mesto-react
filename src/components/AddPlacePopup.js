@@ -1,57 +1,89 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import { FormValidator } from "./FormValidator.js";
+import { dataNamingConfiuration } from "../utils/constans";
 
 function AddPlacePopup(props) {
-  const cardName = React.useRef();
+  const [inputValues, setInputValues] = React.useState({ name: "", link: "" });
 
-  const cardLink = React.useRef();
+  const [ifClose, setIfClose] = React.useState(false);
+
+  function handleInputChange(evt) {
+    setInputValues({
+      ...inputValues,
+      [evt.target.name]: evt.target.value,
+    });
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
 
     props.handleSubmit({
-      name: cardName.current.value,
-      link: cardLink.current.value,
-    });
+      name: inputValues.name,
+      link: inputValues.link,
+    },cleaningFields);
+  }
+
+  //тест валидации при помощи классового компонента
+  React.useEffect(() => {
+    const formValidator = new FormValidator(
+      dataNamingConfiuration,
+      "popup-posts"
+    );
+    formValidator.enableValidation();
+    if (ifClose) {
+      formValidator.clearingErrorFields();
+      setIfClose(false);
+    }
+  }, [props.isOpen, ifClose]);
+
+  function clickingCloseButton() {
+    props.onClose();
+    cleaningFields();
+  }
+
+  function cleaningFields() {
+    setInputValues({ name: "", link: "" });
+    setIfClose(true);
   }
 
   return (
     <PopupWithForm
       onSubmit={handleSubmit}
       isOpen={props.isOpen}
-      onClose={props.onClose}
+      onClose={clickingCloseButton}
       name={"popup-posts"}
-      textButton={"Создать"}
+      textButton={props.textButton}
       title={"Новое место"}
-      children={
-        <>
-          <input
-            ref={cardName}
-            type="text"
-            id="name-card"
-            name="name"
-            placeholder="Название"
-            className="popup__filed"
-            minLength={2}
-            maxLength={30}
-            autoComplete="off"
-            required
-          />
-          <span className="error name-card-error" />
-          <input
-            ref={cardLink}
-            type="url"
-            id="link-card"
-            name="link"
-            placeholder="Ссылка на картинку"
-            className="popup__filed"
-            autoComplete="off"
-            required
-          />
-          <span className="error link-card-error" />
-        </>
-      }
-    />
+      activeValid={true}
+    >
+      <input
+        value={inputValues.name}
+        onChange={handleInputChange}
+        type="text"
+        id="name-card"
+        name="name"
+        placeholder="Название"
+        className="popup__filed"
+        minLength={2}
+        maxLength={30}
+        autoComplete="off"
+        required
+      />
+      <span className="error name-card-error" />
+      <input
+        value={inputValues.link}
+        onChange={handleInputChange}
+        type="url"
+        id="link-card"
+        name="link"
+        placeholder="Ссылка на картинку"
+        className="popup__filed"
+        autoComplete="off"
+        required
+      />
+      <span className="error link-card-error" />
+    </PopupWithForm>
   );
 }
 

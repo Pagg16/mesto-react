@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import React from "react";
 import Card from "./Card";
 import CurrentUserContext from "../contexts/CurrentUserContext";
@@ -11,6 +10,7 @@ function Main({
   cards,
   handleCardLike,
   onCardDelete,
+  handlePopupDeletingClick,
 }) {
   const dataUser = React.useContext(CurrentUserContext);
 
@@ -50,6 +50,7 @@ function Main({
       <section className="elements">
         {cards.map((card) => (
           <Card
+            handlePopupDeletingClick={handlePopupDeletingClick}
             key={card._id}
             card={card}
             currentUser={dataUser}

@@ -1,6 +1,8 @@
 import React from "react";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function Card(props) {
+  const dataUser = React.useContext(CurrentUserContext);
 
   function handleClick() {
     props.onCardClick(props.card);
@@ -11,10 +13,10 @@ function Card(props) {
   }
 
   function handleDeleteClick() {
-    props.onCardDelete(props.card);
+    props.handlePopupDeletingClick(props.card);
   }
 
-  const isOwn = props.card.owner._id === props.currentUser._id;
+  const isOwn = props.card.owner._id === dataUser._id;
 
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
   const isLiked = props.card.likes.some((i) => i._id === props.currentUser._id);
