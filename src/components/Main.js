@@ -53,7 +53,6 @@ function Main({
             handlePopupDeletingClick={handlePopupDeletingClick}
             key={card._id}
             card={card}
-            currentUser={dataUser}
             onCardClick={onCardClick}
             onCardLike={handleCardLike}
             onCardDelete={onCardDelete}

@@ -17,7 +17,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlaceClick] = React.useState(false);
   const [isPopupDeletingOpen, setIsPopupDeletingClick] = React.useState(false);
 
-  const [delCard, setDelCard] = React.useState([]);
+  const [delCard, setDelCard] = React.useState({});
 
   //текст кнопок при запросе
   const [textButtonAvatar, setTextButtonAvatar] = React.useState("Сохранить");
@@ -31,7 +31,7 @@ function App() {
   const [cards, changeCards] = React.useState([]);
 
   //переменная с данными пользователя
-  const [currentUser, currentUserSet] = React.useState([]);
+  const [currentUser, currentUserSet] = React.useState({});
 
   //переменная открытия картинки с данными картинки
   const [selectedCard, setSelectedCard] = React.useState({
@@ -109,8 +109,21 @@ function App() {
     setIsAddPlaceClick(false);
     setSelectedCard({ name: "", link: "" });
     setIsPopupDeletingClick(false);
-    setDelCard([]);
+    setDelCard({});
   }
+
+  //закрытие попапов по нажатию на esc
+  React.useEffect(() => {
+    const closeByEscape = (e) => {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+
+    document.addEventListener("keydown", closeByEscape);
+
+    return () => document.removeEventListener("keydown", closeByEscape);
+  }, []);
 
   //открытие попапа с изменением аватара
   function handleEditAvatarClick() {

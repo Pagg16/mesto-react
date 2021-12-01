@@ -6,7 +6,7 @@ import { dataNamingConfiuration } from "../utils/constans";
 function AddPlacePopup(props) {
   const [inputValues, setInputValues] = React.useState({ name: "", link: "" });
 
-  const [ifClose, setIfClose] = React.useState(false);
+  const [validator, setValidator] = React.useState({});
 
   function handleInputChange(evt) {
     setInputValues({
@@ -18,24 +18,32 @@ function AddPlacePopup(props) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    props.handleSubmit({
-      name: inputValues.name,
-      link: inputValues.link,
-    },cleaningFields);
+    props.handleSubmit(
+      {
+        name: inputValues.name,
+        link: inputValues.link,
+      },
+      cleaningFields
+    );
   }
 
-  //тест валидации при помощи классового компонента
   React.useEffect(() => {
-    const formValidator = new FormValidator(
+    const formvalidator = new FormValidator(
       dataNamingConfiuration,
       "popup-posts"
     );
-    formValidator.enableValidation();
-    if (ifClose) {
-      formValidator.clearingErrorFields();
-      setIfClose(false);
+
+    formvalidator.enableValidation();
+
+    setValidator(formvalidator);
+  }, []);
+
+  //тест валидации при помощи классового компонента
+  React.useEffect(() => {
+    if (props.isOpen) {
+      validator.clearingErrorFields();
     }
-  }, [props.isOpen, ifClose]);
+  }, [props.isOpen]);
 
   function clickingCloseButton() {
     props.onClose();
@@ -44,7 +52,6 @@ function AddPlacePopup(props) {
 
   function cleaningFields() {
     setInputValues({ name: "", link: "" });
-    setIfClose(true);
   }
 
   return (
